@@ -165,6 +165,18 @@ function App() {
                   <td>ピンク 🩷</td>
                 </tr>
                 <tr>
+                  <th>好きな食べ物</th>
+                  <td>冷やしラタトゥーユ、辛ラタトゥーユ 🍅</td>
+                </tr>
+                <tr>
+                  <th>好きな映画</th>
+                  <td>アバター、レミーのおいしいレストラン 🎬</td>
+                </tr>
+                <tr>
+                  <th>特技</th>
+                  <td>猫耳をつけて走り回る、SHEINでの買い物 🐱</td>
+                </tr>
+                <tr>
                   <th>好きなキャラ</th>
                   <td>ハローキティ 🎀</td>
                 </tr>
@@ -183,21 +195,30 @@ function App() {
         <h2 className="section-title">おんぷちゃんのすきなもの</h2>
         <div className="likes-grid">
           <div className="like-card">
-            <div className="like-icon">🩷</div>
-            <h3>ピンク色</h3>
+            <div className="like-icon">🍅</div>
+            <h3>ラタトゥーユ</h3>
             <p>
-              おんぷちゃんの世界はピンクでいっぱい！
-              衣装もお部屋もネイルもぜーんぶピンク。
-              「ピンクは世界を平和にする色やねん！」
+              おんぷの大好物はラタトゥーユ！
+              冷やしラタトゥーユも辛ラタトゥーユもどっちも好き。
+              「レミーに作ってもらうのが夢やねん♪」
             </p>
           </div>
           <div className="like-card">
-            <div className="like-icon">🎀</div>
-            <h3>ハローキティ</h3>
+            <div className="like-icon">🎬</div>
+            <h3>映画鑑賞</h3>
             <p>
-              キティちゃんが大好き！
-              キティグッズのコレクションは100個以上。
-              サンリオピューロランドは聖地巡礼やで！
+              アバターの世界観に憧れてるの！
+              あとレミーのおいしいレストランは何回観ても泣いちゃう。
+              推し映画についてはいくらでも語れるで！
+            </p>
+          </div>
+          <div className="like-card">
+            <div className="like-icon">🐱</div>
+            <h3>猫耳 & SHEIN</h3>
+            <p>
+              特技は猫耳つけて走り回ること！にゃー！
+              あとSHEINで可愛い服を見つけるのが得意やねん。
+              掘り出しもの見つけたときの喜びはライブ級！
             </p>
           </div>
           <div className="like-card">
