@@ -10,14 +10,68 @@ const floatingNotes = Array.from({ length: 15 }, (_, i) => ({
   size: `${1 + Math.random() * 1.5}rem`,
 }))
 
+const shopItems = [
+  {
+    id: 1,
+    emoji: '📸',
+    name: 'オリジナルチェキ（サイン入り）',
+    price: '¥1,500',
+    description: 'おんぷちゃん直筆サイン入り！ライブ衣装ver.',
+    badge: '大人気',
+  },
+  {
+    id: 2,
+    emoji: '📸',
+    name: 'チェキ 2ショット券',
+    price: '¥2,000',
+    description: 'イベント限定！おんぷちゃんと一緒に撮れるよ♪',
+    badge: '限定',
+  },
+  {
+    id: 3,
+    emoji: '👕',
+    name: '推しTシャツ（ピンク）',
+    price: '¥3,500',
+    description: 'おんぷちゃんデザインのオリジナルTシャツ',
+    badge: 'NEW',
+  },
+  {
+    id: 4,
+    emoji: '🎀',
+    name: 'おそろいリボン',
+    price: '¥1,200',
+    description: 'おんぷちゃんとおそろいのピンクリボン',
+    badge: null,
+  },
+  {
+    id: 5,
+    emoji: '🩷',
+    name: 'ペンライト（ピンク）',
+    price: '¥2,500',
+    description: 'ライブ必須アイテム！おんぷカラーのペンライト',
+    badge: null,
+  },
+  {
+    id: 6,
+    emoji: '✉️',
+    name: 'ランダムブロマイドセット',
+    price: '¥800',
+    description: '全5種からランダムで3枚入り！コンプしてね',
+    badge: 'おすすめ',
+  },
+]
+
 function App() {
   const [submitted, setSubmitted] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
 
   const handleSubmit = (e) => {
     e.preventDefault()
     setSubmitted(true)
     setTimeout(() => setSubmitted(false), 3000)
   }
+
+  const closeMenu = () => setMenuOpen(false)
 
   return (
     <>
@@ -44,16 +98,28 @@ function App() {
         <a href="#" className="header-logo">
           🎀 おんぷちゃん<span>Official Fan Site</span>
         </a>
-        <nav>
+        <button
+          className={`hamburger ${menuOpen ? 'open' : ''}`}
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="メニューを開く"
+        >
+          <span />
+          <span />
+          <span />
+        </button>
+        <nav className={`nav ${menuOpen ? 'nav-open' : ''}`}>
           <ul className="nav-links">
-            <li><a href="#profile">プロフィール</a></li>
-            <li><a href="#likes">すきなもの</a></li>
-            <li><a href="#gallery">ギャラリー</a></li>
-            <li><a href="#schedule">スケジュール</a></li>
-            <li><a href="#message">メッセージ</a></li>
-            <li><a href="#fan">ファンレター</a></li>
+            <li><a href="#profile" onClick={closeMenu}>プロフィール</a></li>
+            <li><a href="#likes" onClick={closeMenu}>すきなもの</a></li>
+            <li><a href="#poem" onClick={closeMenu}>ポエム</a></li>
+            <li><a href="#gallery" onClick={closeMenu}>ギャラリー</a></li>
+            <li><a href="#shop" onClick={closeMenu}>グッズ</a></li>
+            <li><a href="#schedule" onClick={closeMenu}>スケジュール</a></li>
+            <li><a href="#message" onClick={closeMenu}>メッセージ</a></li>
+            <li><a href="#fan" onClick={closeMenu}>ファンレター</a></li>
           </ul>
         </nav>
+        {menuOpen && <div className="nav-overlay" onClick={closeMenu} />}
       </header>
 
       {/* Hero */}
@@ -146,6 +212,73 @@ function App() {
         </div>
       </section>
 
+      {/* Poem */}
+      <section className="section" id="poem">
+        <h2 className="section-title">おんぷの秘密のポエム</h2>
+        <div className="poem-container">
+          <div className="poem-card">
+            <div className="poem-deco">🌙</div>
+            <p className="poem-text">
+              夜空を見上げたら<br />
+              一番光ってる星みつけたの<br />
+              あれはきっと、きみが<br />
+              おんぷのこと応援してくれてる光だね
+            </p>
+            <span className="poem-tag">#夜空のきみへ</span>
+          </div>
+          <div className="poem-card">
+            <div className="poem-deco">🎀</div>
+            <p className="poem-text">
+              リボンを結ぶとき いつも思うの<br />
+              きょうも可愛くなきゃって<br />
+              だって…きみに「可愛い」って<br />
+              言ってほしいから…なんてね♪
+            </p>
+            <span className="poem-tag">#リボンの秘密</span>
+          </div>
+          <div className="poem-card">
+            <div className="poem-deco">🩷</div>
+            <p className="poem-text">
+              「好き」って気持ちは<br />
+              ピンク色に似てると思うねん<br />
+              見てるだけでドキドキして<br />
+              世界がぜんぶキラキラするから
+            </p>
+            <span className="poem-tag">#ピンクの気持ち</span>
+          </div>
+          <div className="poem-card">
+            <div className="poem-deco">✨</div>
+            <p className="poem-text">
+              ステージから見える景色はね<br />
+              きみのペンライトの海なの<br />
+              その光ひとつひとつが<br />
+              おんぷの宝物やねん…えへ
+            </p>
+            <span className="poem-tag">#ステージの景色</span>
+          </div>
+          <div className="poem-card">
+            <div className="poem-deco">💌</div>
+            <p className="poem-text">
+              もしも魔法が使えたら<br />
+              きみの隣にワープしたいな<br />
+              …って、それは魔法じゃなくても<br />
+              ライブに来てくれたら叶うよね？
+            </p>
+            <span className="poem-tag">#魔法よりも</span>
+          </div>
+          <div className="poem-card">
+            <div className="poem-deco">🌸</div>
+            <p className="poem-text">
+              春風がおんぷの髪をゆらすたび<br />
+              きみのこと考えてるの バレちゃうかな<br />
+              桜みたいに儚くない<br />
+              ずっとずっと応援しててね
+            </p>
+            <span className="poem-tag">#春風とひみつ</span>
+          </div>
+        </div>
+      </section>
+
       {/* Gallery */}
       <section className="section" id="gallery">
         <h2 className="section-title">ギャラリー</h2>
@@ -156,6 +289,30 @@ function App() {
           <div className="gallery-item">✨</div>
           <div className="gallery-item">🌸</div>
           <div className="gallery-item">🎵</div>
+        </div>
+      </section>
+
+      {/* Shop */}
+      <section className="section" id="shop">
+        <h2 className="section-title">おんぷちゃんグッズ</h2>
+        <p className="shop-subtitle">
+          オリジナルチェキ・グッズ販売中！ライブ会場 & オンラインで買えるよ♪
+        </p>
+        <div className="shop-grid">
+          {shopItems.map((item) => (
+            <div className="shop-card" key={item.id}>
+              {item.badge && <span className="shop-badge">{item.badge}</span>}
+              <div className="shop-icon">{item.emoji}</div>
+              <h3 className="shop-name">{item.name}</h3>
+              <p className="shop-desc">{item.description}</p>
+              <p className="shop-price">{item.price}</p>
+              <button className="shop-btn">🛒 カートに入れる</button>
+            </div>
+          ))}
+        </div>
+        <div className="shop-notice">
+          <p>※ オンラインショップは準備中です。ライブ会場の物販ブースでお買い求めください。</p>
+          <p>※ チェキ撮影券はイベント当日のみ有効です。</p>
         </div>
       </section>
 
@@ -235,6 +392,7 @@ function App() {
         <div className="footer-links">
           <a href="#">ホーム</a>
           <a href="#profile">プロフィール</a>
+          <a href="#shop">グッズ</a>
           <a href="#schedule">スケジュール</a>
         </div>
       </footer>

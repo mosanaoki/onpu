@@ -26,6 +26,39 @@
   margin-left: 0.5rem;
 }
 
+/* Hamburger button */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  z-index: 200;
+}
+
+.hamburger span {
+  display: block;
+  width: 26px;
+  height: 3px;
+  background: var(--white);
+  border-radius: 3px;
+  transition: transform 0.3s, opacity 0.3s;
+}
+
+.hamburger.open span:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.hamburger.open span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.open span:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
 .nav-links {
   display: flex;
   gap: 1.5rem;
@@ -45,6 +78,10 @@
   opacity: 1;
   text-decoration: underline;
   text-underline-offset: 4px;
+}
+
+.nav-overlay {
+  display: none;
 }
 
 /* ===== Hero ===== */
@@ -251,6 +288,62 @@
   line-height: 1.7;
 }
 
+/* ===== Poem Section ===== */
+.poem-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+.poem-card {
+  background: var(--white);
+  border-radius: 20px;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 4px 20px var(--shadow);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.poem-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--pink-300), var(--pink-500), var(--pink-300));
+}
+
+.poem-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px var(--shadow);
+}
+
+.poem-deco {
+  font-size: 2.5rem;
+  margin-bottom: 0.8rem;
+}
+
+.poem-text {
+  font-size: 0.95rem;
+  color: var(--pink-700);
+  line-height: 2;
+  font-weight: 500;
+}
+
+.poem-tag {
+  display: inline-block;
+  margin-top: 1rem;
+  font-size: 0.8rem;
+  color: var(--pink-400);
+  font-weight: 700;
+  background: var(--pink-50);
+  padding: 0.3rem 0.8rem;
+  border-radius: 50px;
+}
+
 /* ===== Gallery ===== */
 .gallery-grid {
   display: grid;
@@ -277,6 +370,101 @@
   box-shadow: 0 8px 30px var(--shadow);
 }
 
+/* ===== Shop Section ===== */
+.shop-subtitle {
+  text-align: center;
+  color: var(--pink-500);
+  font-weight: 700;
+  font-size: 1rem;
+  margin-top: -1.5rem;
+  margin-bottom: 2rem;
+}
+
+.shop-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.shop-card {
+  background: var(--white);
+  border-radius: 20px;
+  padding: 1.8rem;
+  text-align: center;
+  box-shadow: 0 4px 20px var(--shadow);
+  position: relative;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.shop-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 40px var(--shadow);
+}
+
+.shop-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: linear-gradient(135deg, var(--pink-400), var(--pink-500));
+  color: var(--white);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.25rem 0.7rem;
+  border-radius: 50px;
+}
+
+.shop-icon {
+  font-size: 3rem;
+  margin-bottom: 0.8rem;
+}
+
+.shop-name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--pink-700);
+  margin-bottom: 0.4rem;
+}
+
+.shop-desc {
+  font-size: 0.85rem;
+  color: var(--pink-400);
+  line-height: 1.6;
+  margin-bottom: 0.8rem;
+}
+
+.shop-price {
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: var(--pink-600);
+  margin-bottom: 1rem;
+}
+
+.shop-btn {
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 0.6rem 1.5rem;
+  background: linear-gradient(135deg, var(--pink-400), var(--pink-500));
+  color: var(--white);
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.shop-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px var(--shadow);
+}
+
+.shop-notice {
+  margin-top: 2rem;
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--pink-400);
+  line-height: 1.8;
+}
+
 /* ===== Message Section ===== */
 .message-box {
   background: var(--white);
@@ -288,7 +476,7 @@
 }
 
 .message-box::before {
-  content: '"';
+  content: '\201C';
   position: absolute;
   top: 1rem;
   left: 2rem;
@@ -476,14 +664,56 @@
 
 /* ===== Responsive ===== */
 @media (max-width: 768px) {
-  .header {
-    flex-direction: column;
-    gap: 0.5rem;
-    padding: 0.8rem 1rem;
+  .hamburger {
+    display: flex;
+  }
+
+  .nav {
+    position: fixed;
+    top: 0;
+    right: -280px;
+    width: 280px;
+    height: 100vh;
+    background: linear-gradient(180deg, var(--pink-500), var(--pink-600));
+    z-index: 150;
+    transition: right 0.3s ease;
+    padding: 5rem 2rem 2rem;
+    box-shadow: -4px 0 20px rgba(0,0,0,0.2);
+  }
+
+  .nav-open {
+    right: 0;
   }
 
   .nav-links {
-    gap: 1rem;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .nav-links li {
+    border-bottom: 1px solid rgba(255,255,255,0.15);
+  }
+
+  .nav-links li:last-child {
+    border-bottom: none;
+  }
+
+  .nav-links a {
+    display: block;
+    padding: 1rem 0;
+    font-size: 1.05rem;
+    opacity: 1;
+  }
+
+  .nav-overlay {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.4);
+    z-index: 140;
   }
 
   .hero h1 {
@@ -514,5 +744,13 @@
 
   .message-box {
     padding: 2rem 1.5rem;
+  }
+
+  .poem-container {
+    grid-template-columns: 1fr;
+  }
+
+  .shop-grid {
+    grid-template-columns: 1fr;
   }
 }
