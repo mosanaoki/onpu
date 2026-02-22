@@ -1,0 +1,48 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --pink-50: #fef1f6;
+  --pink-100: #fde4ef;
+  --pink-200: #fcc8df;
+  --pink-300: #fb9ec4;
+  --pink-400: #f76aa3;
+  --pink-500: #f04085;
+  --pink-600: #e01f63;
+  --pink-700: #c2104a;
+  --pink-800: #a0113e;
+  --pink-900: #861337;
+  --white: #ffffff;
+  --shadow: rgba(240, 64, 133, 0.15);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Zen Maru Gothic', serif;
+  background: var(--pink-50);
+  color: var(--pink-900);
+  line-height: 1.8;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(circle at 20% 20%, var(--pink-100) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, var(--pink-100) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: -1;
+}
