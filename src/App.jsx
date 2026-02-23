@@ -132,6 +132,45 @@ function App() {
         </p>
       </section>
 
+      {/* Thailand Live Announcement */}
+      <section className="announce-banner">
+        <div className="announce-sparkles">
+          <span className="sparkle">✨</span>
+          <span className="sparkle">🌟</span>
+          <span className="sparkle">✨</span>
+          <span className="sparkle">💫</span>
+          <span className="sparkle">✨</span>
+          <span className="sparkle">🌟</span>
+          <span className="sparkle">✨</span>
+          <span className="sparkle">💫</span>
+        </div>
+        <div className="announce-content">
+          <div className="announce-badge">🎉 BIG NEWS 🎉</div>
+          <h2 className="announce-title">
+            🇹🇭 タイでライブ決定！！🇹🇭
+          </h2>
+          <p className="announce-text">
+            おんぷちゃん、ついにタイ・バンコクでの<br />
+            初海外ワンマンライブが決定しました！！
+          </p>
+          <div className="announce-details">
+            <span>📅 2026.06.14（日）</span>
+            <span>📍 バンコク・Thunder Dome</span>
+          </div>
+          <p className="announce-sub">詳細は後日発表！お楽しみに♪</p>
+        </div>
+        <div className="announce-sparkles">
+          <span className="sparkle">✨</span>
+          <span className="sparkle">🌟</span>
+          <span className="sparkle">✨</span>
+          <span className="sparkle">💫</span>
+          <span className="sparkle">✨</span>
+          <span className="sparkle">🌟</span>
+          <span className="sparkle">✨</span>
+          <span className="sparkle">💫</span>
+        </div>
+      </section>
+
       {/* Profile */}
       <section className="section" id="profile">
         <h2 className="section-title">プロフィール</h2>
