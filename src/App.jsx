@@ -1,80 +1,74 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import './App.css'
 
-const floatingNotes = Array.from({ length: 15 }, (_, i) => ({
+const floatingNotes = Array.from({ length: 20 }, (_, i) => ({
   id: i,
-  emoji: ['🎵', '🎶', '🎀', '🩷', '✨'][i % 5],
+  emoji: ['🎵', '🎶', '🎀', '🩷', '✨', '🌸', '💖', '⭐'][i % 8],
   left: `${Math.random() * 100}%`,
-  delay: `${Math.random() * 10}s`,
-  duration: `${10 + Math.random() * 15}s`,
-  size: `${1 + Math.random() * 1.5}rem`,
+  delay: `${Math.random() * 12}s`,
+  duration: `${8 + Math.random() * 18}s`,
+  size: `${1 + Math.random() * 1.8}rem`,
 }))
 
-const shopItems = [
-  {
-    id: 1,
-    emoji: '📸',
-    name: 'オリジナルチェキ（サイン入り）',
-    price: '¥1,500',
-    description: 'おんぷちゃん直筆サイン入り！ライブ衣装ver.',
-    badge: '大人気',
-  },
-  {
-    id: 2,
-    emoji: '📸',
-    name: 'チェキ 2ショット券',
-    price: '¥2,000',
-    description: 'イベント限定！おんぷちゃんと一緒に撮れるよ♪',
-    badge: '限定',
-  },
-  {
-    id: 3,
-    emoji: '👕',
-    name: '推しTシャツ（ピンク）',
-    price: '¥3,500',
-    description: 'おんぷちゃんデザインのオリジナルTシャツ',
-    badge: 'NEW',
-  },
-  {
-    id: 4,
-    emoji: '🎀',
-    name: 'おそろいリボン',
-    price: '¥1,200',
-    description: 'おんぷちゃんとおそろいのピンクリボン',
-    badge: null,
-  },
-  {
-    id: 5,
-    emoji: '🩷',
-    name: 'ペンライト（ピンク）',
-    price: '¥2,500',
-    description: 'ライブ必須アイテム！おんぷカラーのペンライト',
-    badge: null,
-  },
-  {
-    id: 6,
-    emoji: '✉️',
-    name: 'ランダムブロマイドセット',
-    price: '¥800',
-    description: '全5種からランダムで3枚入り！コンプしてね',
-    badge: 'おすすめ',
-  },
-]
+const heroSparkles = Array.from({ length: 12 }, (_, i) => ({
+  id: i,
+  emoji: ['✨', '⭐', '💫', '🌟'][i % 4],
+  top: `${10 + Math.random() * 80}%`,
+  left: `${5 + Math.random() * 90}%`,
+  delay: `${Math.random() * 3}s`,
+  duration: `${1.5 + Math.random() * 2}s`,
+}))
+
+const heartRainDrops = Array.from({ length: 15 }, (_, i) => ({
+  id: i,
+  emoji: ['🩷', '💗', '💖', '💕'][i % 4],
+  left: `${Math.random() * 100}%`,
+  delay: `${Math.random() * 8}s`,
+  duration: `${5 + Math.random() * 8}s`,
+  size: `${0.8 + Math.random() * 1.2}rem`,
+}))
+
+const tickerText = '🎀 西中島48 おんぷちゃん公式ファンサイト 🩷 ニューシングル「ピンクの魔法」4/1リリース 🌸 春の単独ライブ 3/15 チケット好評発売中 ✨ サンリオコラボイベント開催決定 💖 '
+
+function useScrollReveal() {
+  const ref = useRef(null)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible')
+          }
+        })
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+    )
+
+    const el = ref.current
+    if (el) {
+      const revealElements = el.querySelectorAll('.reveal')
+      revealElements.forEach((child) => observer.observe(child))
+    }
+
+    return () => observer.disconnect()
+  }, [])
+
+  return ref
+}
 
 function App() {
   const [submitted, setSubmitted] = useState(false)
-  const [menuOpen, setMenuOpen] = useState(false)
+  const appRef = useScrollReveal()
 
   const handleSubmit = (e) => {
     e.preventDefault()
     setSubmitted(true)
-    setTimeout(() => setSubmitted(false), 3000)
+    setTimeout(() => setSubmitted(false), 4000)
   }
 
-  const closeMenu = () => setMenuOpen(false)
-
   return (
-    <>
+    <div ref={appRef}>
       {/* Floating background decorations */}
       <div className="floating-notes">
         {floatingNotes.map((note) => (
@@ -93,37 +87,64 @@ function App() {
         ))}
       </div>
 
+      {/* Ticker */}
+      <div className="ticker">
+        <div className="ticker-inner">
+          {tickerText}{tickerText}
+        </div>
+      </div>
+
       {/* Header */}
       <header className="header">
         <a href="#" className="header-logo">
           🎀 おんぷちゃん<span>Official Fan Site</span>
         </a>
-        <button
-          className={`hamburger ${menuOpen ? 'open' : ''}`}
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="メニューを開く"
-        >
-          <span />
-          <span />
-          <span />
-        </button>
-        <nav className={`nav ${menuOpen ? 'nav-open' : ''}`}>
+        <nav>
           <ul className="nav-links">
-            <li><a href="#profile" onClick={closeMenu}>プロフィール</a></li>
-            <li><a href="#likes" onClick={closeMenu}>すきなもの</a></li>
-            <li><a href="#poem" onClick={closeMenu}>ポエム</a></li>
-            <li><a href="#gallery" onClick={closeMenu}>ギャラリー</a></li>
-            <li><a href="#shop" onClick={closeMenu}>グッズ</a></li>
-            <li><a href="#schedule" onClick={closeMenu}>スケジュール</a></li>
-            <li><a href="#message" onClick={closeMenu}>メッセージ</a></li>
-            <li><a href="#fan" onClick={closeMenu}>ファンレター</a></li>
+            <li><a href="#profile">プロフィール</a></li>
+            <li><a href="#likes">すきなもの</a></li>
+            <li><a href="#gallery">ギャラリー</a></li>
+            <li><a href="#schedule">スケジュール</a></li>
+            <li><a href="#message">メッセージ</a></li>
+            <li><a href="#fan">ファンレター</a></li>
           </ul>
         </nav>
-        {menuOpen && <div className="nav-overlay" onClick={closeMenu} />}
       </header>
 
       {/* Hero */}
       <section className="hero">
+        <div className="hero-sparkles">
+          {heroSparkles.map((s) => (
+            <span
+              key={s.id}
+              className="sparkle"
+              style={{
+                top: s.top,
+                left: s.left,
+                animationDelay: s.delay,
+                animationDuration: s.duration,
+              }}
+            >
+              {s.emoji}
+            </span>
+          ))}
+        </div>
+        <div className="heart-rain">
+          {heartRainDrops.map((h) => (
+            <span
+              key={h.id}
+              className="heart-drop"
+              style={{
+                left: h.left,
+                animationDelay: h.delay,
+                animationDuration: h.duration,
+                fontSize: h.size,
+              }}
+            >
+              {h.emoji}
+            </span>
+          ))}
+        </div>
         <div className="hero-ribbon">🎀</div>
         <h1>おんぷちゃん</h1>
         <p className="hero-sub">西中島48 リーダー</p>
@@ -132,11 +153,14 @@ function App() {
         </p>
       </section>
 
+      <div className="kawaii-divider">🩷 🎀 🩷 🎀 🩷</div>
+
       {/* Profile */}
       <section className="section" id="profile">
-        <h2 className="section-title">プロフィール</h2>
-        <div className="profile-card">
+        <h2 className="section-title reveal" data-icon="🎀">プロフィール</h2>
+        <div className="profile-card reveal">
           <div className="profile-avatar">
+            <div className="avatar-ring" />
             <div className="avatar-placeholder">🎀</div>
           </div>
           <div className="profile-info">
@@ -165,18 +189,6 @@ function App() {
                   <td>ピンク 🩷</td>
                 </tr>
                 <tr>
-                  <th>好きな食べ物</th>
-                  <td>冷やしラタトゥーユ、辛ラタトゥーユ 🍅</td>
-                </tr>
-                <tr>
-                  <th>好きな映画</th>
-                  <td>アバター、レミーのおいしいレストラン 🎬</td>
-                </tr>
-                <tr>
-                  <th>特技</th>
-                  <td>猫耳をつけて走り回る、SHEINでの買い物 🐱</td>
-                </tr>
-                <tr>
                   <th>好きなキャラ</th>
                   <td>ハローキティ 🎀</td>
                 </tr>
@@ -190,38 +202,31 @@ function App() {
         </div>
       </section>
 
+      <div className="kawaii-divider">✨ 💖 ✨ 💖 ✨</div>
+
       {/* Likes */}
       <section className="section" id="likes">
-        <h2 className="section-title">おんぷちゃんのすきなもの</h2>
+        <h2 className="section-title reveal" data-icon="🩷">おんぷちゃんのすきなもの</h2>
         <div className="likes-grid">
-          <div className="like-card">
-            <div className="like-icon">🍅</div>
-            <h3>ラタトゥーユ</h3>
+          <div className="like-card reveal">
+            <div className="like-icon">🩷</div>
+            <h3>ピンク色</h3>
             <p>
-              おんぷの大好物はラタトゥーユ！
-              冷やしラタトゥーユも辛ラタトゥーユもどっちも好き。
-              「レミーに作ってもらうのが夢やねん♪」
+              おんぷちゃんの世界はピンクでいっぱい！
+              衣装もお部屋もネイルもぜーんぶピンク。
+              「ピンクは世界を平和にする色やねん！」
             </p>
           </div>
-          <div className="like-card">
-            <div className="like-icon">🎬</div>
-            <h3>映画鑑賞</h3>
+          <div className="like-card reveal">
+            <div className="like-icon">🎀</div>
+            <h3>ハローキティ</h3>
             <p>
-              アバターの世界観に憧れてるの！
-              あとレミーのおいしいレストランは何回観ても泣いちゃう。
-              推し映画についてはいくらでも語れるで！
+              キティちゃんが大好き！
+              キティグッズのコレクションは100個以上。
+              サンリオピューロランドは聖地巡礼やで！
             </p>
           </div>
-          <div className="like-card">
-            <div className="like-icon">🐱</div>
-            <h3>猫耳 & SHEIN</h3>
-            <p>
-              特技は猫耳つけて走り回ること！にゃー！
-              あとSHEINで可愛い服を見つけるのが得意やねん。
-              掘り出しもの見つけたときの喜びはライブ級！
-            </p>
-          </div>
-          <div className="like-card">
+          <div className="like-card reveal">
             <div className="like-icon">🎤</div>
             <h3>歌とダンス</h3>
             <p>
@@ -233,136 +238,54 @@ function App() {
         </div>
       </section>
 
-      {/* Poem */}
-      <section className="section" id="poem">
-        <h2 className="section-title">おんぷの秘密のポエム</h2>
-        <div className="poem-container">
-          <div className="poem-card">
-            <div className="poem-deco">🌙</div>
-            <p className="poem-text">
-              夜空を見上げたら<br />
-              一番光ってる星みつけたの<br />
-              あれはきっと、きみが<br />
-              おんぷのこと応援してくれてる光だね
-            </p>
-            <span className="poem-tag">#夜空のきみへ</span>
-          </div>
-          <div className="poem-card">
-            <div className="poem-deco">🎀</div>
-            <p className="poem-text">
-              リボンを結ぶとき いつも思うの<br />
-              きょうも可愛くなきゃって<br />
-              だって…きみに「可愛い」って<br />
-              言ってほしいから…なんてね♪
-            </p>
-            <span className="poem-tag">#リボンの秘密</span>
-          </div>
-          <div className="poem-card">
-            <div className="poem-deco">🩷</div>
-            <p className="poem-text">
-              「好き」って気持ちは<br />
-              ピンク色に似てると思うねん<br />
-              見てるだけでドキドキして<br />
-              世界がぜんぶキラキラするから
-            </p>
-            <span className="poem-tag">#ピンクの気持ち</span>
-          </div>
-          <div className="poem-card">
-            <div className="poem-deco">✨</div>
-            <p className="poem-text">
-              ステージから見える景色はね<br />
-              きみのペンライトの海なの<br />
-              その光ひとつひとつが<br />
-              おんぷの宝物やねん…えへ
-            </p>
-            <span className="poem-tag">#ステージの景色</span>
-          </div>
-          <div className="poem-card">
-            <div className="poem-deco">💌</div>
-            <p className="poem-text">
-              もしも魔法が使えたら<br />
-              きみの隣にワープしたいな<br />
-              …って、それは魔法じゃなくても<br />
-              ライブに来てくれたら叶うよね？
-            </p>
-            <span className="poem-tag">#魔法よりも</span>
-          </div>
-          <div className="poem-card">
-            <div className="poem-deco">🌸</div>
-            <p className="poem-text">
-              春風がおんぷの髪をゆらすたび<br />
-              きみのこと考えてるの バレちゃうかな<br />
-              桜みたいに儚くない<br />
-              ずっとずっと応援しててね
-            </p>
-            <span className="poem-tag">#春風とひみつ</span>
-          </div>
-        </div>
-      </section>
+      <div className="kawaii-divider">🌸 🎵 🌸 🎵 🌸</div>
 
       {/* Gallery */}
       <section className="section" id="gallery">
-        <h2 className="section-title">ギャラリー</h2>
+        <h2 className="section-title reveal" data-icon="📸">ギャラリー</h2>
         <div className="gallery-grid">
-          <div className="gallery-item">🎀</div>
-          <div className="gallery-item">🩷</div>
-          <div className="gallery-item">🎤</div>
-          <div className="gallery-item">✨</div>
-          <div className="gallery-item">🌸</div>
-          <div className="gallery-item">🎵</div>
-        </div>
-      </section>
-
-      {/* Shop */}
-      <section className="section" id="shop">
-        <h2 className="section-title">おんぷちゃんグッズ</h2>
-        <p className="shop-subtitle">
-          オリジナルチェキ・グッズ販売中！ライブ会場 & オンラインで買えるよ♪
-        </p>
-        <div className="shop-grid">
-          {shopItems.map((item) => (
-            <div className="shop-card" key={item.id}>
-              {item.badge && <span className="shop-badge">{item.badge}</span>}
-              <div className="shop-icon">{item.emoji}</div>
-              <h3 className="shop-name">{item.name}</h3>
-              <p className="shop-desc">{item.description}</p>
-              <p className="shop-price">{item.price}</p>
-              <button className="shop-btn">🛒 カートに入れる</button>
+          {['🎀', '🩷', '🎤', '✨', '🌸', '🎵'].map((emoji, i) => (
+            <div key={i} className="gallery-item reveal">
+              {emoji}
             </div>
           ))}
         </div>
-        <div className="shop-notice">
-          <p>※ オンラインショップは準備中です。ライブ会場の物販ブースでお買い求めください。</p>
-          <p>※ チェキ撮影券はイベント当日のみ有効です。</p>
-        </div>
       </section>
+
+      <div className="kawaii-divider">💫 🎀 💫 🎀 💫</div>
 
       {/* Schedule */}
       <section className="section" id="schedule">
-        <h2 className="section-title">スケジュール</h2>
+        <h2 className="section-title reveal" data-icon="📅">スケジュール</h2>
         <div className="schedule-list">
-          <div className="schedule-item">
+          <div className="schedule-item reveal">
             <div className="schedule-date">2026.03.15</div>
             <div className="schedule-info">
-              <h3>西中島48 春の単独ライブ</h3>
+              <h3>
+                西中島48 春の単独ライブ
+                <span className="schedule-new">NEW</span>
+              </h3>
               <p>なんばグランド花月 / 開場 17:00 開演 18:00</p>
             </div>
           </div>
-          <div className="schedule-item">
+          <div className="schedule-item reveal">
             <div className="schedule-date">2026.04.01</div>
             <div className="schedule-info">
-              <h3>ニューシングル「ピンクの魔法」リリース</h3>
+              <h3>
+                ニューシングル「ピンクの魔法」リリース
+                <span className="schedule-new">NEW</span>
+              </h3>
               <p>おんぷちゃん初のセンター曲！</p>
             </div>
           </div>
-          <div className="schedule-item">
+          <div className="schedule-item reveal">
             <div className="schedule-date">2026.04.20</div>
             <div className="schedule-info">
               <h3>握手会 & サイン会</h3>
               <p>あべのハルカス 特設ステージ / 13:00〜17:00</p>
             </div>
           </div>
-          <div className="schedule-item">
+          <div className="schedule-item reveal">
             <div className="schedule-date">2026.05.05</div>
             <div className="schedule-info">
               <h3>サンリオコラボイベント</h3>
@@ -372,10 +295,18 @@ function App() {
         </div>
       </section>
 
+      <div className="kawaii-divider">🩷 ✨ 🩷 ✨ 🩷</div>
+
       {/* Message */}
       <section className="section" id="message">
-        <h2 className="section-title">おんぷちゃんからのメッセージ</h2>
-        <div className="message-box">
+        <h2 className="section-title reveal" data-icon="💌">おんぷちゃんからのメッセージ</h2>
+        <div className="message-box reveal">
+          <div className="message-deco">
+            <span style={{ top: '10%', left: '5%', animationDelay: '0s' }}>🎀</span>
+            <span style={{ top: '20%', right: '8%', animationDelay: '1s' }}>🩷</span>
+            <span style={{ bottom: '15%', left: '10%', animationDelay: '2s' }}>✨</span>
+            <span style={{ bottom: '10%', right: '5%', animationDelay: '1.5s' }}>🌸</span>
+          </div>
           <p className="message-text">
             いつも応援してくれてほんまにありがとう！<br />
             みんながおってくれるから、おんぷは毎日がんばれるねん。<br />
@@ -387,21 +318,24 @@ function App() {
         </div>
       </section>
 
+      <div className="kawaii-divider">💖 🎵 💖 🎵 💖</div>
+
       {/* Fan Letter */}
       <section className="section" id="fan">
-        <h2 className="section-title">ファンレター</h2>
+        <h2 className="section-title reveal" data-icon="💌">ファンレター</h2>
         {submitted ? (
-          <div className="message-box">
+          <div className="message-box success-box reveal visible">
             <p className="message-text">
               メッセージありがとう！🎀<br />
-              おんぷちゃんに届けるね♪
+              おんぷちゃんに届けるね♪<br />
+              🩷💖🩷
             </p>
           </div>
         ) : (
-          <form className="fan-form" onSubmit={handleSubmit}>
+          <form className="fan-form reveal" onSubmit={handleSubmit}>
             <input type="text" placeholder="お名前（ニックネーム）" required />
             <textarea placeholder="おんぷちゃんへのメッセージを書いてね♪" required />
-            <button type="submit">🩷 メッセージを送る</button>
+            <button type="submit">🩷 メッセージを送る 🩷</button>
           </form>
         )}
       </section>
@@ -413,11 +347,10 @@ function App() {
         <div className="footer-links">
           <a href="#">ホーム</a>
           <a href="#profile">プロフィール</a>
-          <a href="#shop">グッズ</a>
           <a href="#schedule">スケジュール</a>
         </div>
       </footer>
-    </>
+    </div>
   )
 }
 

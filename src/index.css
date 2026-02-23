@@ -18,7 +18,8 @@
   --pink-800: #a0113e;
   --pink-900: #861337;
   --white: #ffffff;
-  --shadow: rgba(240, 64, 133, 0.15);
+  --shadow: rgba(240, 64, 133, 0.2);
+  --glow: rgba(247, 106, 163, 0.4);
 }
 
 html {
@@ -31,8 +32,10 @@ body {
   color: var(--pink-900);
   line-height: 1.8;
   overflow-x: hidden;
+  cursor: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><text y='24' font-size='24'>🩷</text></svg>") 4 4, auto;
 }
 
+/* Background sparkle pattern */
 body::before {
   content: '';
   position: fixed;
@@ -41,8 +44,36 @@ body::before {
   width: 100%;
   height: 100%;
   background:
+    radial-gradient(2px 2px at 20% 30%, var(--pink-300), transparent),
+    radial-gradient(2px 2px at 40% 70%, var(--pink-200), transparent),
+    radial-gradient(2px 2px at 60% 20%, var(--pink-300), transparent),
+    radial-gradient(2px 2px at 80% 60%, var(--pink-200), transparent),
     radial-gradient(circle at 20% 20%, var(--pink-100) 0%, transparent 50%),
     radial-gradient(circle at 80% 80%, var(--pink-100) 0%, transparent 50%);
   pointer-events: none;
   z-index: -1;
+  animation: bgShimmer 8s ease-in-out infinite alternate;
+}
+
+@keyframes bgShimmer {
+  0% { opacity: 0.6; }
+  100% { opacity: 1; }
+}
+
+/* Scroll reveal animation class */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Selection color */
+::selection {
+  background: var(--pink-300);
+  color: var(--white);
 }
